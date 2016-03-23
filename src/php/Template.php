@@ -1,6 +1,6 @@
 <?php
 
-namespace DevLucid;
+namespace Lucid\Component\Response;
 
 
 class Response implements ResponseInterface

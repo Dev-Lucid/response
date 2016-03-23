@@ -1,5 +1,5 @@
 <?php
-namespace DevLucid\Component\Response;
+namespace Lucid\Component\Response;
 
 interface ResponseInterface
 {

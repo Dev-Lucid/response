@@ -16,10 +16,10 @@
       }
   ],
   "autoload": {
-      "psr-4": {"DevLucid\\Component\\Response\\": "/src/php"}
+      "psr-4": {"Lucid\\Component\\Response\\": "/src/php"}
   },
   "autoload-dev": {
-      "psr-4": {"DevLucid\\Component\\Response\\": "/src/php"}
+      "psr-4": {"Lucid\\Component\\Response\\": "/src/php"}
   },
   "license": "MIT",
   "bin": [
