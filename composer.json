@@ -1,0 +1,27 @@
+{
+  "name": "response",
+  "type":"library",
+  "repo": "devlucid/response",
+  "description": "",
+  "authors": [
+      {
+          "name":     "Mike Thorn",
+          "email":    "mthorn@devlucid.com"
+      }
+  ],
+  "maintainers": [
+      {
+          "name":     "Mike Thorn",
+          "email":    "mthorn@devlucid.com"
+      }
+  ],
+  "autoload": {
+      "psr-4": {"DevLucid\\Component\\Response\\": "/src/php"}
+  },
+  "autoload-dev": {
+      "psr-4": {"DevLucid\\Component\\Response\\": "/src/php"}
+  },
+  "license": "MIT",
+  "bin": [
+  ]
+}
