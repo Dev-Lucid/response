@@ -3,6 +3,14 @@ namespace Lucid\Component\Response;
 
 class CommandLine extends Response
 {
+    public function __construct()
+    {
+        parent::__construct();
+        if (ob_get_level() > 0) {
+            ob_end_clean();
+        }
+    }
+
     public function write(string $status='success')
     {
         if (ob_get_level() > 0) {
