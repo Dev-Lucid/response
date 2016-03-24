@@ -5,7 +5,7 @@ class Json extends Response
 {
     public $data = [];
 
-    public function write($status='success')
+    public function write(string $status='success')
     {
         ob_clean();
         header('Content-Type: application/json');

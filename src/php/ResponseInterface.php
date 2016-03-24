@@ -3,6 +3,7 @@ namespace Lucid\Component\Response;
 
 interface ResponseInterface
 {
+    public function reset();
     public function title(string $title);
     public function description(string $description);
     public function keywords(string $keywords);
@@ -14,5 +15,5 @@ interface ResponseInterface
     public function prepend(string $area, $content);
     public function clear($areas=null);
     #public function handleEscapedFragment();
-    public function write();
+    public function write(string $status);
 }

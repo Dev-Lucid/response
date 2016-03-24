@@ -9,6 +9,12 @@ Abstract class Response implements ResponseInterface
 
     public function __construct()
     {
+        $this->reset();
+    }
+
+    public function reset()
+    {
+        ob_end_clean();
         ob_start();
         $this->data = [
             'title'=>null,
