@@ -3,8 +3,6 @@ namespace Lucid\Component\Response;
 
 class Json extends Response
 {
-    public $data = [];
-
     public function write(string $status='success')
     {
         ob_clean();
