@@ -6,10 +6,19 @@ Abstract class Response implements ResponseInterface
     public $data = [];
     public $defaultPosition = null;
     public $defaultClear = [];
+    protected $logger = null;
 
-    public function __construct()
+    public function __construct($logger=null)
     {
         $this->reset();
+        if (is_null($logger)) {
+            $this->logger = new \Lucid\Component\BasicLogger\BasicLogger();
+        } else {
+            if (is_object($logger) === false || in_array('Psr\\Log\\LoggerInterface', class_implements($logger)) === false) {
+                throw new \Exception('Factory contructor parameter $logger must either be null, or implement Psr\\Log\\LoggerInterface. If null is passed, then an instance of Lucid\\Component\\BasicLogger\\BasicLogger will be instantiated instead, and all messages will be passed along to error_log();');
+            }
+            $this->logger = $logger;
+        }
     }
 
     public function reset()
