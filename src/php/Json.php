@@ -10,4 +10,10 @@ class Json extends Response
         $output = json_encode(['status'=>$status, 'data'=>$this->data], JSON_PRETTY_PRINT);
         exit($output);
     }
+
+    public function redirect(string $newViewObject, $viewMethod='index')
+    {
+        \Lucid\lucid::factory()->view($newViewObject)->$viewMethod();
+        \Lucid\lucid::response()->javascript('lucid.updateHash(\'#!view.'.$newViewObject.'.'.$viewMethod.'\');');
+    }
 }
