@@ -37,7 +37,7 @@ Abstract class Response implements ResponseInterface
             'append'=>[],
             'prepend'=>[],
             'data'=>[],
-            'errors'=>[],
+            'messages'=>[],
         ];
     }
 
@@ -71,9 +71,9 @@ Abstract class Response implements ResponseInterface
         return $this;
     }
 
-    public function error(string $msg)
+    public function message(string $message)
     {
-        $this->data['errors'][] = $msg;
+        $this->data['messages'][] = $message;
         return $this;
     }
 

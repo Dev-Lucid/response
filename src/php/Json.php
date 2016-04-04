@@ -14,6 +14,6 @@ class Json extends Response
     public function redirect(string $newViewObject, $viewMethod='index')
     {
         \Lucid\lucid::factory()->view($newViewObject)->$viewMethod();
-        \Lucid\lucid::response()->javascript('lucid.updateHash(\'#!view.'.$newViewObject.'.'.$viewMethod.'\');');
+        \Lucid\lucid::response()->javascript('lucid.updateHash(\'#!'.$newViewObject.'.view.'.$viewMethod.'\');');
     }
 }
