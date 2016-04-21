@@ -1,12 +1,12 @@
 <?php
 namespace Lucid\Component\Response;
 
-class CommandLine extends Response
+class CliResponse extends Response
 {
     public function __construct()
     {
         parent::__construct();
-        if (ob_get_level() > 0) {
+        while (ob_get_level() > 0) {
             ob_end_clean();
         }
     }

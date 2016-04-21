@@ -4,28 +4,14 @@ namespace Lucid\Component\Response;
 Abstract class Response implements ResponseInterface
 {
     public $data = [];
-    public $defaultPosition = null;
-    public $defaultClear = [];
-    protected $logger = null;
 
-    public function __construct($logger=null)
+    public function __construct()
     {
         $this->reset();
-        if (is_null($logger)) {
-            $this->logger = new \Lucid\Component\BasicLogger\BasicLogger();
-        } else {
-            if (is_object($logger) === false || in_array('Psr\\Log\\LoggerInterface', class_implements($logger)) === false) {
-                throw new \Exception('Factory contructor parameter $logger must either be null, or implement Psr\\Log\\LoggerInterface. If null is passed, then an instance of Lucid\\Component\\BasicLogger\\BasicLogger will be instantiated instead, and all messages will be passed along to error_log();');
-            }
-            $this->logger = $logger;
-        }
     }
 
     public function reset()
     {
-        if (ob_get_level() > 0) {
-            ob_end_clean();
-        }
         ob_start();
         $this->data = [
             'title'=>null,
@@ -59,7 +45,7 @@ Abstract class Response implements ResponseInterface
         return $this;
     }
 
-    public function data($key, $data)
+    public function data(string $key, $data)
     {
         $this->data['data'][$key] = $data;
         return $this;
@@ -77,30 +63,8 @@ Abstract class Response implements ResponseInterface
         return $this;
     }
 
-    public function replace(string $area, $content=null)
+    public function replace(string $area, $content=false)
     {
-        if (isset($area) === false and is_null($this->defaultPosition) === false) {
-            $area = $this->defaultPosition;
-        }
-
-        if (isset($content) === false || is_null($content) === true) {
-            $content = ob_get_clean();
-            ob_start();
-        }
-
-        if (is_object($content) === true) {
-            $content = $content->__toString();
-        }
-        $this->data['replace'][$area] = $content;
-        return $this;
-    }
-
-    public function append(string $area, $content=null)
-    {
-        if (isset($area) === false and is_null($this->defaultPosition) === false) {
-            $area = $this->defaultPosition;
-        }
-
         if (isset($content) === false) {
             $content = ob_get_clean();
             ob_start();
@@ -109,17 +73,29 @@ Abstract class Response implements ResponseInterface
         if (is_object($content) === true) {
             $content = $content->__toString();
         }
+
+        $this->data['replace'][$area] = $content;
+        return $this;
+    }
+
+    public function append(string $area, $content=false)
+    {
+        if ($content === false) {
+            $content = ob_get_clean();
+            ob_start();
+        }
+
+        if (is_object($content) === true) {
+            $content = $content->__toString();
+        }
+
         $this->data['append'][$area] = $content;
         return $this;
     }
 
     public function prepend(string $area, $content=null)
     {
-        if (isset($area) === false and is_null($this->defaultPosition) === false) {
-            $area = $this->defaultPosition;
-        }
-
-        if (isset($content) === false) {
+        if ($content === false) {
             $content = ob_get_clean();
             ob_start();
         }
@@ -127,26 +103,17 @@ Abstract class Response implements ResponseInterface
         if (is_object($content) === true) {
             $content = $content->__toString();
         }
+
         $this->data['prepend'][$area] = $content;
         return $this;
     }
 
-    public function __call($area, $args)
+    public function clear(...$areas)
     {
-        if (isset($args[0]) === true) {
-            $this->replace('#'.$area, $args[0]);
-        } else {
-            $this->replace('#'.$area);
-        }
-        return $this;
-    }
-
-    public function clear($areas=null)
-    {
-        $areas = (is_null($areas) === true)?$this->defaultClear:$areas;
-        $areas = (is_array($areas) === false)?[$areas]:$areas;
         foreach ($areas as $area) {
-            $this->replace($area, '');
+            $this->prepend($area, null);
+            $this->replace($area, null);
+            $this->append($area, null);
         }
         return $this;
     }
