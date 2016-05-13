@@ -1,8 +1,11 @@
 if (typeof lucid === 'undefined') {
     var lucid = {};
 }
+if (typeof lucid.response === 'undefined') {
+    lucid.response = {};
+}
 
-if (typeof(lucid.messages) !== 'function') {
+if (typeof(lucid.messages) != 'object') {
     lucid.messages.show=function(status, messageList){
         var text = status + '\n------------------------------\n';
         text += messageList.join('\n');
@@ -10,8 +13,8 @@ if (typeof(lucid.messages) !== 'function') {
     };
 }
 
-lucid.jsonResponse=function(xhr, statusCode){
-    //lucid.callHandlers('pre-handleResponse', {'jqxhr':xhr, 'statusCode':statusCode});
+lucid.response.json =function(xhr, statusCode){
+    lucid.response.json.beforeHandleResponse(xhr.responseJSON);
     if (statusCode == 'success'){
         console.log(xhr.responseJSON);
         var status = xhr.responseJSON.status;
@@ -57,10 +60,19 @@ lucid.jsonResponse=function(xhr, statusCode){
                 console.log(data.postJavascript);
             }
         }
-        lucid.messages.show(status, data.messages);
+        if (data.messages.length > 0) {
+            lucid.messages.show(statusCode, data.messages);
+        }
+
     }else{
-        lucid.messages.show('error', ['Invalid response from server: '+statusCode]);
+        //lucid.messages.show('error', ['Invalid response from server: '+statusCode]);
+        lucid.messages.show(statusCode, xhr.responseJSON.data.messages);
         console.log(xhr);
     }
-    //lucid.callHandlers('post-handleResponse', {'jqxhr':xhr, 'statusCode':statusCode});
+    lucid.response.json.afterHandleResponse(xhr.responseJSON);
+};
+
+lucid.response.json.beforeHandleResponse=function(json) {
+};
+lucid.response.json.afterHandleResponse=function(json) {
 };

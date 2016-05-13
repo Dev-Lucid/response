@@ -1,5 +1,5 @@
 <?php
-use Lucid\Component\Response\JsonResponse;
+use Lucid\Response\JsonContentResponse;
 
 class JsonTest extends \PHPUnit_Framework_TestCase
 {
@@ -7,7 +7,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->response = new JsonResponse();
+        $this->response = new JsonContentResponse();
 
     }
 

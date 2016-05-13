@@ -1,7 +1,7 @@
 <?php
-namespace Lucid\Component\Response;
+namespace Lucid\Response;
 
-Abstract class Response implements ResponseInterface
+Abstract class ContentResponse extends DataResponse implements ContentResponseInterface
 {
     public $data = [];
 
@@ -42,12 +42,6 @@ Abstract class Response implements ResponseInterface
     public function keywords(string $keywords)
     {
         $this->data['keywords'] = $keywords;
-        return $this;
-    }
-
-    public function data(string $key, $data)
-    {
-        $this->data['data'][$key] = $data;
         return $this;
     }
 
@@ -117,39 +111,4 @@ Abstract class Response implements ResponseInterface
         }
         return $this;
     }
-    /*
-    public function handleEscapedFragment()
-    {
-        if (lucid::$request->is_set('_escaped_fragment_') === true) {
-
-            $parameters = explode('|', lucid::$request->raw('_escaped_fragment_'));
-            $action = array_shift($parameters);
-            $passedParameters = [];
-
-            for ($i=0; $i<count($parameters); $i+=2) {
-                $passedParameters[$parameters[$i]] = $parameters[$i + 1];
-            }
-
-            lucid::$queue->add('request', $action, $passedParameters);
-            lucid::$queue->process();
-
-            $src = '<!DOCTYPE html><html lang="en"><head>';
-            if (isset(lucid::$response->data['title']) === true) {
-                $src .= '<title>'.lucid::$response->data['title'].'</title>';
-            }
-            if (isset(lucid::$response->data['keywords']) === true) {
-                $src .= '<meta name="keywords" content="'.lucid::$response->data['keywords'].'" />';
-            }
-            if (isset(lucid::$response->data['description']) === true) {
-                $src .= '<meta name="description" content="'.lucid::$response->data['description'].'" />';
-            }
-            $src .= '</head><body>';
-            foreach (lucid::$response->data['replace'] as $key=>$value) {
-                $src .= '<div data-key="'.$key.'">'.$value.'</div>';
-            }
-            $src .= '</body></html>';
-            exit($src);
-        }
-    }
-    */
 }

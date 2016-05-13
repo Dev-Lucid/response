@@ -1,7 +1,7 @@
 <?php
-namespace Lucid\Component\Response;
+namespace Lucid\Response;
 
-class CliResponse extends Response
+class CliContentResponse extends ContentResponse
 {
     public function __construct()
     {
